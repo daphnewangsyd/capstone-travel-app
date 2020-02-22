@@ -1,0 +1,210 @@
+$font-stack:    Oswald, sans-serif;
+$primary-color: #6200ee;
+$primary-color-dark: #3700b3;
+$secondary-color: #333;
+$secondary-color-dark: #2d2d2d;
+$background-color: #ffffff;
+$background-color-dark: #f1f1f1;
+$error-color: #b00020;
+$color-on-primary: #f9f9f9;
+$color-on-secondary: #ffffff;
+$color-hover: #ddd;
+
+* {
+    box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+    font-family: $font-stack;
+    margin: 0;
+    background: $background-color;
+}
+
+/* Header/logo Title */
+.header {
+    padding: 40px;
+    text-align: center;
+    background: $primary-color;
+    color: $color-on-primary;
+}
+
+/* Style the top navigation bar */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: $secondary-color;
+}
+
+/* Style the navigation bar links */
+.navbar a {
+    color: $color-on-secondary;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Change color on hover */
+.navbar a:hover {
+    background-color: $color-hover;
+    color: black;
+}
+
+/* Column container */
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+    flex: 30%;
+    background-color: $background-color-dark;
+    padding: 20px;
+}
+
+/* Main column */
+.main {
+    flex: 70%;
+    background-color: $background-color;
+    padding: 20px;
+}
+
+/* Fake image, just for this example */
+.fakeimg {
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Footer */
+.footer {
+    padding: 5px;
+    background: $secondary-color-dark;
+    color: $color-on-secondary;
+}
+/* Card */
+.card {
+    background-color: $background-color-dark;
+    margin-bottom: 2rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+/* Misc */
+.icon {
+    height: 32px;
+    width: 32px;
+}
+
+.label {
+    margin-right: 0.5rem;
+}
+
+.content {
+    color: $primary-color-dark;
+    margin-right: 1rem;
+
+}
+
+.column {
+    flex: 50%;
+    max-width: 50%;
+}
+
+.column img {
+    padding:0 1.25rem 0 0;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 768px) {
+    .column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+/*  Basic Styling To Override Default For Basic HTML Elements */
+label{
+    display:block;
+    font-size: 27px;
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+input{
+    display:block;
+    height: 60px;
+    width: 320px;
+    background:#004c8c;
+    color: whitesmoke;
+    font-size: 20px;
+    font-family: $font-stack;
+    border: none;
+}
+
+button{
+    width: 400px;
+    height: 100px;
+    background: #c62828;
+    color: whitesmoke;
+    font-size: 26px;
+    font-family: $font-stack;
+    border: none;
+    box-shadow: 2px 4px 5px #444;
+}
+h1, h2, h3, h4, h5, h6{
+    margin-block-start: 0;
+}
+
+textarea{
+    background:#004c8c;
+    color: whitesmoke;
+    font-size: 20px;
+    font-family: $font-stack;
+}
+/* Reset style for HTML element on active to have no border*/
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+/* Style for Placeholder Text*/
+::placeholder { /* Firefox, Chrome, Opera */
+    color: lightyellow;
+    font-family: $font-stack;
+
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: lightyellow;
+    font-family: $font-stack;
+
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color:lightyellow;
+    font-family: $font-stack;
+
+}
