@@ -4,6 +4,7 @@ const BASE_URL_WEATHER='http://api.openweathermap.org/data/2.5/weather?';
 const API_KEY='500350f8669fa07140fa893d35b4a064';
 
 /* Functions called by event listener */
+/* Function to save a trip */
 function onSaveTrip(e){
     // const zip = document.getElementById('zip').value;
     // getWeather(BASE_URL_WEATHER, zip, API_KEY)
@@ -11,8 +12,19 @@ function onSaveTrip(e){
     //     .then(updateData);
 }
 
+/* Function to delete a trip */
 function onDeleteTrip(e) {
 
+}
+
+/* Function to add a trip by showing the form inputs */
+function onAddTrip(e) {
+    document.getElementById("card-new").classList.remove("invisible");
+}
+
+/* Function to cancel adding a trip by clearing and hiding the form inputs */
+function onCancelTrip(e) {
+    document.getElementById("card-new").classList.add("invisible");
 }
 //
 // /* Function to GET Web API Data*/
@@ -65,4 +77,4 @@ function onDeleteTrip(e) {
 //     }
 // };
 
-export {onSaveTrip, onDeleteTrip}
+export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip}
