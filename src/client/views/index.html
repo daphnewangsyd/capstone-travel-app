@@ -25,7 +25,7 @@
     </div>
 
     <!-- The flexible grid (content) -->
-    <div class="row">
+    <div class="row align-top">
         <div class="side">
             <h2>About Me</h2>
             <img src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="avatar">
@@ -44,59 +44,32 @@
             </div>
         </div>
         <div class="main">
-            <div class="card">
-                <div class="row">
-                    <h2>
-                        <span class="label">Trip to:</span>
-                        <span class="content">Paris, France</span>
-                    </h2>
-                    <button class="button-danger float-right" id="btnTripDelete"><i class="far fa-trash-alt"></i>Delete Trip</button>
-                </div>
-                <div class="row">
-                    <h5>
-                        <span class="label">Trip starts:</span>
-                        <span class="content">02 Feb 2020</span>
-                        <span class="label">Trip ends:</span>
-                        <span class="content">22 Feb 2020</span>
-                        <span class="label">Duration:</span>
-                        <span class="content">20 Days</span>
-                    </h5>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <img src="https://media.cntraveler.com/photos/5d8cf7d5db6acf000833e6cc/4:3/w_420,c_limit/Eiffel-Tower_GettyImages-1060266626.jpg" alt="image">
-                    </div>
-                    <div class="column">
-                        <p>The trip is 229 days away.</p>
-                        <h5>Typical weather:</h5>
-                        <div class="weather">
+            <div id="loading"><h1>Loading...</h1></div>
+            <div id="trips-list">
 
-                        </div>
-                        <label for="note">Notes</label>
-                        <textarea id="note" class="notes" rows="5"></textarea>
-                    </div>
-                </div>
             </div>
-            <div>
+            <div class="row">
                 <button class="button-primary" id="btnTripAdd"><i class="fas fa-plus"></i>Add</button>
             </div>
             <div class="card invisible" id="card-new">
-                <div class="row">
-                    <label for="location" class="label">Trip location:</label>
-                    <input id="location" type="text" placeholder="Enter a location: eg. Paris, France">
-                </div>
-                <div class="row">
-                    <label for="date-start" class="label">Start date:</label>
-                    <input id="date-start" type="date" placeholder="Start date of the trip">
-                </div>
-                <div class="row">
-                    <label for="date-finish" class="label">Finish date:</label>
-                    <input id="date-finish" type="date" placeholder="Finish date of the trip">
-                </div>
-                <div class="row">
-                    <button class="button-primary" id="btnTripSave"><i class="far fa-save"></i>Save</button>
-                    <button class="button-danger" id="btnTripCancel"><i class="far fa-trash-alt"></i>Cancel</button>
-                </div>
+                <form id="form-new">
+                    <div class="row">
+                        <label for="location" class="label">Trip location:</label>
+                        <input id="location" type="text" placeholder="Enter a location: eg. Paris, France" required minlength="6">
+                    </div>
+                    <div class="row">
+                        <label for="date-start" class="label">Start date:</label>
+                        <input id="date-start" type="date" placeholder="Start date of the trip" required>
+                    </div>
+                    <div class="row">
+                        <label for="date-finish" class="label">Finish date:</label>
+                        <input id="date-finish" type="date" placeholder="Finish date of the trip" required>
+                    </div>
+                    <div class="row">
+                        <button class="button-primary" id="btnTripSave" type="submit"><i class="far fa-save"></i>Save</button>
+                        <button class="button-danger" id="btnTripCancel"><i class="far fa-trash-alt"></i>Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
