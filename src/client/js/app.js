@@ -22,7 +22,7 @@ async function loadTrips() {
 async function renderTripList(data) {
     let html = "";
     data.forEach(line => {
-        const daysTo = getDateDifference(line.dateFrom, line.dateTo);
+        const daysTo = getDateDifference(new Date(), Date.parse(line.dateFrom));
         const lineHtml = '<div class="card">\n' +
             '                <div class="row">\n' +
             '                    <h2>\n' +
@@ -51,7 +51,7 @@ async function renderTripList(data) {
             '                        <div class="weather" data-id="'+line.id+'">\n' +
             '                        </div>\n' +
             '                        <label for="note">Notes</label>\n' +
-            '                        <textarea id="note" class="notes" rows="5">'+line.notes+'</textarea>\n' +
+            '                        <textarea id="note" class="notes" rows="5" onchange="Client.onNotesChanged(this,'+line.id+');">'+line.notes+'</textarea>\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
@@ -104,6 +104,26 @@ async function onDeleteTrip(id) {
     }
 }
 
+/* Function to save notes upon changing */
+async function onNotesChanged(element, id) {
+    console.log('Change notes for #'+id);
+    try {
+        const notesResponse = await fetch('http://localhost:8081/notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id,
+                notes: element.value
+            })
+        });
+        return await loadTrips();
+    } catch (e) {
+        console.log('error', e);
+    }
+}
+
 /* Function to add a trip by showing the form inputs */
 function onAddTrip(e) {
     document.getElementById("card-new").classList.remove("invisible");
@@ -118,7 +138,6 @@ function onCancelTrip(e) {
     document.getElementById("location").value = "";
     document.getElementById("date-start").value = "";
     document.getElementById("date-finish").value = "";
-
 }
 
 // Helper functions
@@ -127,7 +146,7 @@ function getDateDifference(dateFrom, dateTo) {
     const ONE_DAY = 1000 * 60 * 60 * 24;
 
     // Calculate the difference in milliseconds
-    const differenceMs = Math.abs(dateFrom - dateTo);
+    const differenceMs = dateTo - dateFrom;
 
     // Convert back to days and return
     return Math.round(differenceMs / ONE_DAY);
@@ -183,4 +202,4 @@ function getDateDifference(dateFrom, dateTo) {
 //     }
 // };
 
-export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip, loadTrips}
+export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip, loadTrips, onNotesChanged}

@@ -63,6 +63,16 @@ app.post('/delete', function (req, res) {
     res.send(data);
 });
 
+// Post Request: add notes
+app.post('/notes', function (req, res) {
+    const reqData = req.body;
+    const data = projectData[reqData.id];
+    data.notes = reqData.notes;
+    projectData[reqData.id] = data;
+    console.log(projectData);
+    res.send(data);
+});
+
 // Helper functions
 function getDateDifference(dateFrom, dateTo) {
     // The number of milliseconds in one day

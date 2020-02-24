@@ -1,4 +1,4 @@
-import {onSaveTrip, onAddTrip, onCancelTrip, onDeleteTrip, loadTrips} from "./js/app";
+import {onSaveTrip, onAddTrip, onCancelTrip, onDeleteTrip, loadTrips, onNotesChanged} from "./js/app";
 import "./styles/main.scss";
 
 // Event listener to add function to existing HTML DOM element
@@ -14,4 +14,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-export {onDeleteTrip}
+export {onDeleteTrip, onNotesChanged}
