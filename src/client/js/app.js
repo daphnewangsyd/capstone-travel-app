@@ -1,7 +1,10 @@
 /* Global Variables */
-
-const GEONAMES_USERNAME='miuwusoftpaw';
-// Personal API Key for Dark Sky API
+// URL & Personal API Key for Geonames API
+const GEONAMES_URL='http://api.geonames.org/searchJSON?q=';
+const GEONAMES_API_KEY='miuwusoftpaw';
+// URL & Personal API Key for Dark Sky API
+const PROXY_URL='https://cors-anywhere.herokuapp.com/';
+const DARK_SKY_URL='https://api.darksky.net/forecast/';
 const DARK_SKY_API_KEY='aabde7e995d82645e83cc7744086b6cd';
 
 /* Main Functions */
@@ -67,20 +70,27 @@ async function renderWeather(data){
     for (const line of data) {
         console.log("Processing: "+line.location);
         try {
-            const response = await fetch('http://api.geonames.org/searchJSON?q='+line.location+'&username='+GEONAMES_USERNAME);
+            const response = await fetch(GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY);
             const data = response.json();
             if (data.totalResultsCount === 0){
                 continue;
             }
-            await data.then(value => console.log(value.geonames[0]));
+            await data.then(value => fetchWeather(value.geonames[0], line.dateFrom));
         } catch (e) {
             console.log('error', e);
         }
     }
 }
 
-async function fetchWeather(parsedLocation){
-
+async function fetchWeather(parsedLocation, date){
+    const parsedDate = Date.parse(date)/1000;
+    try {
+        const response = await fetch(PROXY_URL+DARK_SKY_URL+DARK_SKY_API_KEY+'/'+parsedLocation.lat+','+parsedLocation.lng+','+parsedDate+'?exclude=currently,hourly');
+        const data = response.json();
+        await data.then(value => console.log(value));
+    } catch (e) {
+        console.log('error', e);
+    }
 }
 
 /* Functions called by event listener */
