@@ -6,11 +6,13 @@ const GEONAMES_API_KEY='miuwusoftpaw';
 const PROXY_URL='https://cors-anywhere.herokuapp.com/';
 const DARK_SKY_URL='https://api.darksky.net/forecast/';
 const DARK_SKY_API_KEY='aabde7e995d82645e83cc7744086b6cd';
+const Skycons = require('skycons')(window);
 
 /* Main Functions */
 /* Load all trips */
 async function loadTrips() {
     console.log("Loading trip data...");
+    resetInput();
     try {
         const response = await fetch('http://localhost:8081/all');
         const data = await response.json();
@@ -50,11 +52,11 @@ async function renderTripList(data) {
             '                    </div>\n' +
             '                    <div class="column">\n' +
             '                        <p>The trip is '+daysTo+' days away.</p>\n' +
-            '                        <h5>Typical weather:</h5>\n' +
-            '                        <div class="weather" data-id="'+line.id+'">\n' +
+            '                        <h5>Typical weather:</h5><div class="row"><canvas id="weather-icon-'+line.id+'" width="128" height="128"></canvas></div>' +
+            '                        <div class="weather" id="weather-'+line.id+'">\n' +
             '                        </div>\n' +
-            '                        <label for="note">Notes</label>\n' +
-            '                        <textarea id="note" class="notes" rows="5" onchange="Client.onNotesChanged(this,'+line.id+');">'+line.notes+'</textarea>\n' +
+            '                        <div class="row"><label for="note">Notes</label>\n' +
+            '                        <textarea id="note" class="notes" rows="5" onchange="Client.onNotesChanged(this,'+line.id+');">'+line.notes+'</textarea></div>\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
@@ -62,32 +64,46 @@ async function renderTripList(data) {
     });
     document.getElementById("trips-list").innerHTML = html;
     console.log("Loading trip data...Done");
-    return await renderWeather(data);
+    return await processWeather(data);
 }
 
 /* Function to fetch weather information and render the list with the results */
-async function renderWeather(data){
+async function processWeather(data){
+    let skycons = new Skycons({ 'color': '#3C4858' });
     for (const line of data) {
         console.log("Processing: "+line.location);
         try {
             const response = await fetch(GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY);
+            console.log('Fetching>>>'+GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY);
             const data = response.json();
             if (data.totalResultsCount === 0){
                 continue;
             }
-            await data.then(value => fetchWeather(value.geonames[0], line.dateFrom));
+            await data.then(value => fetchWeather(value.geonames[0], line.dateFrom)).then(value => {
+                renderWeather(line.id, value);
+                skycons.add(document.getElementById("weather-icon-"+line.id), Skycons.RAIN);
+            });
         } catch (e) {
             console.log('error', e);
         }
     }
+    skycons.play();
+}
+
+function renderWeather(lineId, weatherData){
+    console.log("Line ID: "+lineId);
+    console.log("Weather Data: ");
+    console.log(weatherData);
+    const data = weatherData.daily.data[0];
+    let html = '<p>'+data.summary+'</p><div class="row"><span class="label">Min</span><span class="content">'+data.temperatureMin+'</span><span class="label">Max</span><span class="content">'+data.temperatureMax+'</span></div>';
+    document.getElementById("weather-"+lineId).innerHTML = html;
 }
 
 async function fetchWeather(parsedLocation, date){
     const parsedDate = Date.parse(date)/1000;
     try {
         const response = await fetch(PROXY_URL+DARK_SKY_URL+DARK_SKY_API_KEY+'/'+parsedLocation.lat+','+parsedLocation.lng+','+parsedDate+'?exclude=currently,hourly');
-        const data = response.json();
-        await data.then(value => console.log(value));
+        return response.json();
     } catch (e) {
         console.log('error', e);
     }
@@ -163,12 +179,7 @@ function onAddTrip(e) {
 
 /* Function to cancel adding a trip by clearing and hiding the form inputs */
 function onCancelTrip(e) {
-    document.getElementById("card-new").classList.add("invisible");
-    document.getElementById("btnTripAdd").removeAttribute("disabled");
-    // Reset input fields
-    document.getElementById("location").value = "";
-    document.getElementById("date-start").value = "";
-    document.getElementById("date-finish").value = "";
+    resetInput();
 }
 
 // Helper functions
@@ -181,6 +192,15 @@ function getDateDifference(dateFrom, dateTo) {
 
     // Convert back to days and return
     return Math.round(differenceMs / ONE_DAY);
+}
+
+function resetInput() {
+    document.getElementById("card-new").classList.add("invisible");
+    document.getElementById("btnTripAdd").removeAttribute("disabled");
+    // Reset input fields
+    document.getElementById("location").value = "";
+    document.getElementById("date-start").value = "";
+    document.getElementById("date-finish").value = "";
 }
 
 export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip, loadTrips, onNotesChanged}

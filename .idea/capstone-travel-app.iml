@@ -5,5 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="877f04b0ea" level="application" />
+    <orderEntry type="library" name="skycons" level="application" />
   </component>
 </module>
