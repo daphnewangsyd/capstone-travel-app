@@ -1,6 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
 projectData = [{
-    "id": 0,
     "location": "Paris, France",
     "dateFrom": '2020-02-02',
     "dateTo": '2020-02-20',
@@ -45,7 +44,6 @@ app.get('/all', function getAll(res, req) {
 app.post('/add', function (req, res) {
     const data = req.body;
     let newData = {
-        "id": projectData.length,
         "location": data.location,
         "dateFrom": data.dateFrom,
         "dateTo": data.dateTo,
