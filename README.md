@@ -14,8 +14,9 @@ The following API providers are used:
   * [Geonames](https://www.geonames.com) - Geocoding
   * [Pixabay](https://pixabay.com) - Image search
 
-### Advanced Feature
+### Advanced Feature in Pursuance of the Stand Out List
 The following advanced feature listed in the "Stand Out List" are implemented:
+  * The notes are automatically saved when edited;
   * End date of the trip is added. The program will also display the duration;
   * When no image is present in the search result, the image of the country will be fetched instead;
   * Option for user to delete the trip;

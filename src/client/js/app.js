@@ -1,7 +1,7 @@
 /* Global Variables */
 // URL & Personal API Key for Geonames API
 const GEONAMES_URL='http://api.geonames.org/searchJSON?q=';
-const GEONAMES_API_KEY=process.env.GEONAMES_API_KEY;
+const GEONAMES_API_KEY='miuwusoftpaw';
 // URL & Personal API Key for Dark Sky API
 const PROXY_URL='https://cors-anywhere.herokuapp.com/';
 const DARK_SKY_URL='https://api.darksky.net/forecast/';
@@ -81,8 +81,8 @@ async function processWeather(data){
         const line = data[i];
         console.log("Processing: "+line.location);
         try {
-            const response = await fetch(GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY);
-            console.log('Fetching>>>'+GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY);
+            const response = await fetch(encodeURI(GEONAMES_URL+line.location+'&username='+GEONAMES_API_KEY));
+            console.log('Fetching>>>'+GEONAMES_URL+line.location);
             const data = response.json();
             if (data.totalResultsCount === 0){
                 continue;
@@ -105,7 +105,7 @@ async function processWeather(data){
 // Invoke the Pixabay API to search for the images for the given location
 async function getImage(location, country, index) {
     console.log("Getting Image for "+location +" "+country+" "+index);
-    const data = await fetch(PIXABAY_URL+PIXABAY_API_KEY+'&q='+location+'+'+country+'&image_type=photo');
+    const data = await fetch(encodeURI(PIXABAY_URL+PIXABAY_API_KEY+'&q='+location+'+'+country+'&image_type=photo'));
     data.json().then(value => {
         console.log(value);
         if (value.totalHits === 0){
@@ -128,7 +128,7 @@ function loadImage(photoUrl, link, index) {
 // Render the weather panel with the weather data
 function renderWeather(lineId, weatherData){
     const data = weatherData.daily.data[0];
-    let html = '<p>'+data.summary+'</p><div class="row"><span class="label">Min</span><span class="content">'+data.temperatureMin+'</span><span class="label">Max</span><span class="content">'+data.temperatureMax+'</span></div>';
+    let html = '<p>'+data.summary+'</p><div class="row"><span class="label">Temperature Min</span><span class="content">'+data.temperatureMin+'</span><span class="label">Max</span><span class="content">'+data.temperatureMax+'</span></div>';
     document.getElementById("weather-"+lineId).innerHTML = html;
 }
 

@@ -1,9 +1,9 @@
-// Setup empty JS object to act as value pair object
+// Setup initial JS object to act as value pair object for demo purpose
 let projectData = [{
     "location": "Paris, France",
-    "dateFrom": '2020-02-02',
-    "dateTo": '2020-02-20',
-    "duration": 8,
+    "dateFrom": '2020-03-02',
+    "dateTo": '2020-03-20',
+    "duration": 18,
     "notes": "This is a test only."
 }];
 
@@ -35,13 +35,18 @@ function listener() {
     console.log('Server started on localhost: 8081');
 }
 
+// Default Get Request for testing
+app.get("/", (req, res) => {
+    res.status(200).send("OK");
+});
+
 // Get Request: get all stored trips
-app.get('/all', function getAll(res, req) {
-    req.send(projectData);
+app.get('/all', (req, res) => {
+    res.send(projectData);
 });
 
 // Post Request: add a new trip
-app.post('/add', function (req, res) {
+app.post('/add', (req, res) => {
     const data = req.body;
     let newData = {
         "location": data.location,
@@ -55,14 +60,14 @@ app.post('/add', function (req, res) {
 });
 
 // Post Request: delete a trip by its ID
-app.post('/delete', function (req, res) {
+app.post('/delete', (req, res) => {
     const id = req.body.id;
     const data = projectData.splice(id, 1);
     res.send(data);
 });
 
 // Post Request: add notes
-app.post('/notes', function (req, res) {
+app.post('/notes', (req, res) => {
     const reqData = req.body;
     const data = projectData[reqData.id];
     data.notes = reqData.notes;
@@ -83,4 +88,4 @@ function getDateDifference(dateFrom, dateTo) {
     return Math.round(differenceMs / ONE_DAY);
 }
 
-export {app}
+module.exports = app;
