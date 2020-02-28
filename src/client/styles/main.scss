@@ -37,6 +37,9 @@ body {
     display: flex;
     flex-wrap: wrap;
     background-color: $secondary-color;
+    &.float-right {
+        align-items: end;
+    }
 }
 
 /* Style the navigation bar links */

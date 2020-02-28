@@ -5,6 +5,7 @@ import "./styles/main.scss";
 document.getElementById('form-new').addEventListener('submit', onSaveTrip);
 document.getElementById('btnTripAdd').addEventListener('click', onAddTrip);
 document.getElementById('btnTripCancel').addEventListener('click', onCancelTrip);
+document.getElementById('btnPrint').addEventListener('click', ev => window.print());
 
 // Load all trip data when the web page is loaded.
 document.addEventListener('DOMContentLoaded', (event) => {

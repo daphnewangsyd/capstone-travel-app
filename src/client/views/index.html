@@ -18,10 +18,10 @@
 
     <!-- Navigation Bar -->
     <div class="navbar">
-        <a href="#">Udacity</a>
-        <a href="#">Geonames</a>
-        <a href="#">Dark Sky</a>
-        <a href="#">Pixabay</a>
+        <a href="https://www.udacity.com/">Udacity</a>
+        <a href="https://www.geonames.org/">Geonames</a>
+        <a href="https://darksky.net/">Dark Sky</a>
+        <a href="https://pixabay.com/">Pixabay</a>
     </div>
 
     <!-- The flexible grid (content) -->
@@ -50,6 +50,7 @@
             </div>
             <div class="row">
                 <button class="button-primary" id="btnTripAdd"><i class="fas fa-plus"></i>Add</button>
+                <button class="button-primary" id="btnPrint"><i class="fas fa-print"></i>Print</button>
             </div>
             <div class="card invisible" id="card-new">
                 <form id="form-new">
@@ -79,5 +80,14 @@
         <h6>© 2020 Daphne Wang</h6>
     </div>
 </div>
+<script>
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
+</script>
 </body>
 </html>

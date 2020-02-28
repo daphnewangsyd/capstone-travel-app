@@ -1,5 +1,5 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = [{
+// Setup empty JS object to act as value pair object
+let projectData = [{
     "location": "Paris, France",
     "dateFrom": '2020-02-02',
     "dateTo": '2020-02-20',
@@ -82,3 +82,5 @@ function getDateDifference(dateFrom, dateTo) {
     // Convert back to days and return
     return Math.round(differenceMs / ONE_DAY);
 }
+
+export {app}

@@ -1,7 +1,7 @@
 /* Global Variables */
 // URL & Personal API Key for Geonames API
 const GEONAMES_URL='http://api.geonames.org/searchJSON?q=';
-const GEONAMES_API_KEY='miuwusoftpaw';
+const GEONAMES_API_KEY=process.env.GEONAMES_API_KEY;
 // URL & Personal API Key for Dark Sky API
 const PROXY_URL='https://cors-anywhere.herokuapp.com/';
 const DARK_SKY_URL='https://api.darksky.net/forecast/';
@@ -11,8 +11,11 @@ const Skycons = require('skycons')(window);
 const PIXABAY_API_KEY='15408135-25f1970b779ad5fbfa9e24ec7';
 const PIXABAY_URL='https://pixabay.com/api/?key=';
 
+// Main Data Object
+let mainData;
+
 /* Main Functions */
-/* Load all trips */
+/* Load all trips from the backend */
 async function loadTrips() {
     console.log("Loading trip data...");
     resetInput();
@@ -28,6 +31,7 @@ async function loadTrips() {
 
 /* Render the Trip List with the data fetched from the backend */
 async function renderTripList(data) {
+    mainData = data;
     let html = "";
     data.forEach((line, i) => {
         const daysTo = getDateDifference(new Date(), Date.parse(line.dateFrom));
@@ -98,31 +102,37 @@ async function processWeather(data){
     skycons.play();
 }
 
+// Invoke the Pixabay API to search for the images for the given location
 async function getImage(location, country, index) {
     console.log("Getting Image for "+location +" "+country+" "+index);
     const data = await fetch(PIXABAY_URL+PIXABAY_API_KEY+'&q='+location+'+'+country+'&image_type=photo');
     data.json().then(value => {
         console.log(value);
         if (value.totalHits === 0){
-
+            if ("" !== location){
+                getImage("", country, index);
+            }
         } else {
             loadImage(value.hits[0].webformatURL, value.hits[0].pageURL, index);
         }
     });
 }
 
+// Render the images by the fetched photo URL
 function loadImage(photoUrl, link, index) {
     document.getElementById('image-'+index).setAttribute('src', photoUrl);
     document.getElementById('image-link-'+index).setAttribute('href', link);
 
 }
 
+// Render the weather panel with the weather data
 function renderWeather(lineId, weatherData){
     const data = weatherData.daily.data[0];
     let html = '<p>'+data.summary+'</p><div class="row"><span class="label">Min</span><span class="content">'+data.temperatureMin+'</span><span class="label">Max</span><span class="content">'+data.temperatureMax+'</span></div>';
     document.getElementById("weather-"+lineId).innerHTML = html;
 }
 
+// Invoke the Dark Sky API to fetch the weather data
 async function fetchWeather(parsedLocation, date){
     const parsedDate = Date.parse(date)/1000;
     try {
@@ -227,4 +237,4 @@ function resetInput() {
     document.getElementById("date-finish").value = "";
 }
 
-export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip, loadTrips, onNotesChanged}
+export {onSaveTrip, onDeleteTrip, onAddTrip, onCancelTrip, loadTrips, onNotesChanged, getDateDifference}
